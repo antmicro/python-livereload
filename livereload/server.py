@@ -261,7 +261,7 @@ class Server(object):
         ]
 
     def serve(self, port=5500, liveport=None, host=None, root=None, debug=None,
-              open_url=False, restart_delay=2, open_url_delay=None):
+              open_url=False, restart_delay=2, open_url_delay=None, path=''):
         """Start serve the server with the given port.
 
         :param port: serve on this port, default is 5500
@@ -290,7 +290,7 @@ class Server(object):
 
             def opener():
                 time.sleep(sleep)
-                webbrowser.open('http://%s:%s' % (host, port))
+                webbrowser.open('http://%s:%s%s' % (host, port, path))
             threading.Thread(target=opener).start()
 
         try:
