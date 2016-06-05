@@ -30,7 +30,7 @@ from six import string_types, PY3
 
 logger = logging.getLogger('livereload')
 
-HEAD_END = b'</head>'
+HEAD_START = b'<head>'
 
 
 def shell(cmd, output=None, mode='w', cwd=None, shell=False):
@@ -87,8 +87,8 @@ class LiveScriptInjector(web.OutputTransform):
         super(LiveScriptInjector, self).__init__(request)
 
     def transform_first_chunk(self, status_code, headers, chunk, finishing):
-        if HEAD_END in chunk:
-            chunk = chunk.replace(HEAD_END, self.script + HEAD_END)
+        if HEAD_START in chunk:
+            chunk = chunk.replace(HEAD_START, HEAD_START + self.script)
             if 'Content-Length' in headers:
                 length = int(headers['Content-Length']) + len(self.script)
                 headers['Content-Length'] = str(length)
